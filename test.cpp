@@ -5,6 +5,7 @@
 using namespace std;
 
 int main() {
+	int count = 0;
 
 	Op* op3 = new Op(3);
 	Op* op4 = new Op(4);
@@ -16,9 +17,12 @@ int main() {
 
 	cout << "--- PreOrder Iteration ---" << endl;
 	PreOrderIterator* pre_itr = new PreOrderIterator(root);
+	cout << "chirp" << endl;
 	for(pre_itr->first(); !pre_itr->is_done(); pre_itr->next()) {
+		cout << "ERR before print" << endl;
 		pre_itr->current()->print();
-		cout << endl;
+		cout << count << endl;
+		count++;
 	}
 };
 
