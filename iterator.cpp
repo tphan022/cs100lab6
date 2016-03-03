@@ -6,28 +6,20 @@
 
 OperatorIterator::OperatorIterator(Base* ptr) : Iterator(ptr) {
 		this->self_ptr = ptr;
-		nextnum = 0;
-		done = false;
 	 }
 void OperatorIterator::first() {
-	if(current_ptr->get_left() != NULL && nextnum == 0) {
 		current_ptr = self_ptr->get_left();
-		nextnum = 1;
-	}
 }
 void OperatorIterator::next() {
-	if(current_ptr->get_right() != NULL && nextnum == 1) {
+	if(current_ptr == self_ptr->get_left()) {
 		current_ptr = self_ptr->get_right();
-		nextnum++;
-		done = true;
 	}
-	else {
+	else if(current_ptr == self_ptr->get_right()) {
 		current_ptr = NULL;
-		done = true;
 	}
 }
 bool OperatorIterator::is_done() {
-	if(done) {
+	if(current_ptr == NULL) {
 		return true;
 	}
 	return false;
@@ -38,19 +30,19 @@ Base* OperatorIterator::current() {
 
 
 UnaryIterator::UnaryIterator(Base* ptr) : Iterator(ptr) {
-		done = false;
 		this->self_ptr = ptr;
 }
 void UnaryIterator::first() {
 	current_ptr = self_ptr->get_left();
-	done = false;
 }
-void UnaryIterator::next() { current_ptr = NULL; }
+void UnaryIterator::next() {
+	current_ptr = NULL;
+ }
 bool UnaryIterator::is_done() {
-	if(done) {
-		return true;
+	if(current_ptr) {
+		return false;
 	}
-	return false;
+	return true;
 }
 Base* UnaryIterator::current() {
 	return current_ptr;
@@ -71,36 +63,40 @@ Base* NullIterator::current() { return NULL; }
 PreOrderIterator::PreOrderIterator(Base* ptr) : Iterator(ptr) 
 	{ this->self_ptr = ptr;}
 void PreOrderIterator::first() {
-	while(!iterators.empty()) {
-		iterators.pop();
-	}
-	cout << "meow" << endl;
 	Iterator* temp = self_ptr->create_iterator();
-	temp->first();
-	iterators.push(temp);
-	self_ptr->print();
-	//iterators.top()->first();
+	if(temp) {
+		while(!iterators.empty()) {
+			iterators.pop();
+		}
+		cout << "meow" << endl;
+		temp->first();
+		iterators.push(temp);
+		//iterators.top()->first();
+	}
 }
 void PreOrderIterator::next() {
-	cout << "dog" << endl;
 	Iterator* temp = iterators.top()->current()->create_iterator();
 	temp->first();
 	iterators.push(temp);
-	//iterators.top()->first();
-	cout << "woof" << endl;
-	while(iterators.top()->is_done()) {
+	iterators.top()->first();
+	while(iterators.top()->is_done() && iterators.size() > 1) {
 		iterators.pop();
+		iterators.top()->next();
 	}
 }
 bool PreOrderIterator::is_done() {
-	if(iterators.empty()) {
+	if(iterators.size() == 1 && iterators.top()->is_done()) {
 		return true;
 	}
 	return false;
 }
 Base* PreOrderIterator::current() {
-	cout << "sheep" << endl;
-	return iterators.top()->current();
+	if(iterators.size() > 0) {
+		return iterators.top()->current();
+	}
+	else {
+		return NULL;
+	}
 }
 
 

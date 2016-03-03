@@ -24,9 +24,6 @@ class Iterator {
 };
 
 class OperatorIterator : public Iterator {
-	protected:
-		int nextnum;
-		bool done;
 	public:
 		OperatorIterator(Base* ptr);
 		void first();
@@ -37,8 +34,6 @@ class OperatorIterator : public Iterator {
 };
 
 class UnaryIterator : public Iterator {
-	protected:
-		bool done;
 	public:
 		UnaryIterator(Base* ptr);
 		void first();
