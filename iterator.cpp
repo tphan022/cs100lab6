@@ -68,7 +68,7 @@ void PreOrderIterator::first() {
 		while(!iterators.empty()) {
 			iterators.pop();
 		}
-		cout << "meow" << endl;
+		//cout << "meow" << endl;
 		temp->first();
 		iterators.push(temp);
 		//iterators.top()->first();

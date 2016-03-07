@@ -26,5 +26,6 @@ int main() {
 		//cout << count << endl;
 		//count++;
 	}
+	cout <<  endl;
 };
 
